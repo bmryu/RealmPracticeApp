@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "90459541747",
+    "firebase_url": "https://practiceapp-ce6dc.firebaseio.com",
+    "project_id": "practiceapp-ce6dc",
+    "storage_bucket": "practiceapp-ce6dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90459541747:android:856cb27fa61cc57f",
+        "android_client_info": {
+          "package_name": "org.adroidtown.practiceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90459541747-b4gcg2qr3koo6q1l80p90ngas2ojl6dn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZaI7wGoO4uixmWjmyy1AGstxZtVzM7zo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

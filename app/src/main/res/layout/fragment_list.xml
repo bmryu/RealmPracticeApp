@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="65dp">-->
+       <!--<TextView-->
+           <!--android:id="@+id/allPostBtn"-->
+           <!--android:layout_width="0dp"-->
+           <!--android:layout_height="match_parent"-->
+           <!--android:layout_weight="1"-->
+           <!--android:text="전체"-->
+           <!--android:textSize="30dp"-->
+           <!--android:gravity="center"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/newPostBtn"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="새글"-->
+            <!--android:textSize="30dp"-->
+            <!--android:gravity="center"/>-->
+    <!--</LinearLayout>-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="386dp">
+
+            </ListView>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#272F31">
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_anttalk_selector"/>
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_experttalk_selector"/>
+        <Button
+            android:id="@+id/button3"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_nesttalk_selector"/>
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_tv_selector"/>
+
+        <Button
+            android:id="@+id/button5"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_search_selector"/>
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_view_selector"/>
+
+    </LinearLayout>
+
+</LinearLayout>
