@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 
 public class CustomButton extends LinearLayout {
+    
 
     ImageView imageView;
     TextView textView;
