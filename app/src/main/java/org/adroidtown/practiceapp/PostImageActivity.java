@@ -29,6 +29,8 @@ public class PostImageActivity extends AppCompatActivity {
     Button backButton;
     Intent intentResult;
     EditText editText;
+  //  DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class PostImageActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.backButton);
         postImageFragment = new PostImageFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
-
+   //     mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
 
 
     }
@@ -81,4 +83,6 @@ public class PostImageActivity extends AppCompatActivity {
 
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
+
+
 }

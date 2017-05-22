@@ -18,13 +18,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     FragmentManager fm;
-    ListFragment listFragment;
+    FirebaseListFragment firebaseListFragment;
     WritePostFragment postFragment;
     Toolbar toolbar;
     BroadcastReceiver receiver;
@@ -41,18 +46,27 @@ public class MainActivity extends AppCompatActivity {
     String imagePath;
     Uri uriAlbum;
    // private FirebaseAnalytics mFirebaseAnalytics;
+    DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
         mContext = this;
+
+        if(!FirebaseApp.getApps(this).isEmpty()){
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         postImageFragment = new PostImageFragment();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        listFragment = new ListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
+//        listFragment = new ListFragment();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
+        firebaseListFragment = new FirebaseListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
         /*
 
@@ -72,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         */
 
-        listFragment.setOnPostListener(new ListFragment.OnPostListener() {
+        firebaseListFragment.setOnPostListener(new FirebaseListFragment.OnPostListener() {
             @Override
             public void onClick() {
                 postFragmentTransaction();
@@ -110,20 +124,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick() {
                 FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
-
+                String content;
+                String path;
                 String choice = "";
                 Intent intent = new Intent("action1");
                 if (isFromAlbum == true) {
                     intent.putExtra("path", uriAlbum);
-                    intent.putExtra("editText", postImageFragment.editText.getText().toString());
+                    content = postImageFragment.editText.getText().toString();
+                    intent.putExtra("editText", content);
                     startService(intent);
                     Log.d("Service123","startService() 앨범 ");
+                    path = uriAlbum.toString();
                 } else {
                     intent.putExtra("image", imagePath);
-                    intent.putExtra("editText", postImageFragment.editText.getText().toString());
+                    content = postImageFragment.editText.getText().toString();
+                    intent.putExtra("editText", content);
                     startService(intent);
                     Log.d("Service123","startService() 촬영 ");
+                    path = imagePath.toString();
                 }
+
+                writeNewPost(content, path);
+
                 if (isFromAlbum == true){
                     choice = "앨범";
                 } else {
@@ -137,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Log.d("fire","이벤트 발생 - 전송 성공");
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
             }
         });
@@ -176,11 +198,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postFragmentTransaction() {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
     }
 
     private void listFragmentTransaction() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
     }
 
     private void loadPicture() {
@@ -224,6 +247,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(this.receiver);
+    }
+
+    private void writeNewPost(String content, String path) {
+        String key = mDatabase.child("posts").push().getKey();
+        FirebaseItem firebaseItem = new FirebaseItem(content,path);
+        Map<String, Object> postValues = firebaseItem.toMap();
+
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/"+key, postValues);
     }
 }
 

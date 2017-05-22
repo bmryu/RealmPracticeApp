@@ -47,6 +47,7 @@ public class WritePostFragment extends Fragment {
             public void onClick(View v) {
 
                 if (editText.getText().length() >= 20){
+
                     Toast.makeText(getActivity(),"글쓰기 완료",Toast.LENGTH_LONG).show();
                     pListener.onClick();
                 } else {
@@ -62,4 +63,5 @@ public class WritePostFragment extends Fragment {
         });
         return rootView;
     }
+
 }

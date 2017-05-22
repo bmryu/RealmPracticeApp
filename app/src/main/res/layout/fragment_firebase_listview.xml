@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/first"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabTextColor="#000000"
+            app:tabIndicatorHeight="5dp"
+            app:tabSelectedTextColor="#FF8000"
+            android:elevation="1dp"
+            android:theme="@style/Toolbar"
+            style="@style/MyTabStyle"
+            android:background="@android:color/background_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lList"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/first"
+        android:layout_above="@+id/bottom">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#272F31"
+        android:layout_below="@+id/lLIst"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_anttalk_selector"/>
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_experttalk_selector"/>
+        <Button
+            android:id="@+id/button3"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_nesttalk_selector"/>
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_tv_selector"/>
+
+        <Button
+            android:id="@+id/button5"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_search_selector"/>
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/BottomTab"
+            android:background="@drawable/btn_view_selector"/>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/writeBtn"
+        android:layout_above="@+id/bottom"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/write"/>
+
+</RelativeLayout>

@@ -16,14 +16,14 @@ import android.widget.TextView;
 
 
 public class CustomButton extends LinearLayout {
-    
+
 
     ImageView imageView;
     TextView textView;
     String textID;
-   // OnCustomBtnListener listener; //4-2 4-1에 가져온 리스너가 메모리에 로딩됨
+    // OnCustomBtnListener listener; //4-2 4-1에 가져온 리스너가 메모리에 로딩됨
 
-    public interface OnCustomBtnListener{
+    public interface OnCustomBtnListener {
         void onClick(String text);
 
     }
@@ -64,7 +64,6 @@ public class CustomButton extends LinearLayout {
     }
 
 
-
     private void getAttrs(AttributeSet attrs, int defStyle) {
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CustomButton, defStyle, 0);
@@ -76,7 +75,7 @@ public class CustomButton extends LinearLayout {
         textID = typedArray.getString(R.styleable.CustomButton_text);
         textView.setText(textID); //3-7 가져온 값을 텍스트뷰의 텍스트로 지정
 
-        int imageID = typedArray.getResourceId(R.styleable.CustomButton_imageSource,0); //3-8 이미지소스 아이디를 겟리소스아이디로 가져온 다음 이미지아이디 변수에 넣어준다
+        int imageID = typedArray.getResourceId(R.styleable.CustomButton_imageSource, 0); //3-8 이미지소스 아이디를 겟리소스아이디로 가져온 다음 이미지아이디 변수에 넣어준다
         imageView.setImageResource(imageID); // 3-9 가져온 변수로 이미지 리소스를 설정한다
 
         String textColorID = typedArray.getString(R.styleable.CustomButton_textColor); //3-9 글씨색을 가져온다
@@ -85,6 +84,7 @@ public class CustomButton extends LinearLayout {
         typedArray.recycle();
 
     }
+
     public CustomButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
@@ -99,26 +99,32 @@ public class CustomButton extends LinearLayout {
 //        init(getContext());
     }
 
-    private void init(Context context){
+    private void init(Context context) {
 
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.button,this,true);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.button, this, true);
 
 //        LayoutInflater.from(mContext).inflate(R.layout.kakao, this, true);
 
 
-        textView = (TextView)findViewById(R.id.textView);
-        imageView = (ImageView)findViewById(R.id.imageView);
-
-
+        textView = (TextView) findViewById(R.id.textView);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
 
     }
 
 
-    public void setText(String text){textView.setText(text);}
-    public void setImageView(int resId){imageView.setImageResource(resId);}
-    public String getText() { return textID; }
+    public void setText(String text) {
+        textView.setText(text);
+    }
+
+    public void setImageView(int resId) {
+        imageView.setImageResource(resId);
+    }
+
+    public String getText() {
+        return textID;
+    }
 
 //    public void setOnCustomBtnListener(OnCustomBtnListener tvListener) { //4-1. 받아온 새로 생성된 tv리스너를 넣어서 전역변수 listener로 보내줌
 //        this.listener = tvListener;
