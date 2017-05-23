@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by bomeeryu_c on 2017. 5. 17..
  */
@@ -44,13 +46,13 @@ public class DialogActivity extends Activity {
             String text = intent.getExtras().getString("editText");
             Uri uriText = intent.getExtras().getParcelable("path");
             dialogText.setText(text);
-            dialogImage.setImageURI(uriText);
+            Glide.with(this).load(uriText).override(100,100).into(dialogImage);
         } else{
             String text = intent.getExtras().getString("editText");
             String uriText = intent.getExtras().getString("image"); //절대경로 받아오기
    //         Log.d("kk9991",uriText);
             dialogText.setText(text);
-            dialogImage.setImageURI(Uri.parse(uriText));
+            Glide.with(this).load(Uri.parse(uriText)).override(100,100).into(dialogImage);
         }
 
     }

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,25 +27,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    FragmentManager fm;
     FirebaseListFragment firebaseListFragment;
-    WritePostFragment postFragment;
     Toolbar toolbar;
     BroadcastReceiver receiver;
     Context mContext;
-    IntentFilter intentfilter;
     PostImageFragment postImageFragment;
     static int REQUEST_PICTURE = 100;
     static int REQUEST_PHOTO_ALBUM = 200;
     static String SAMPLEIMG = "picture.png";
-    static int REQUEST_DIALOG = 300;
-    Intent intentResult;
     Boolean isFromAlbum;
     Bitmap image;
     String imagePath;
     Uri uriAlbum;
-   // private FirebaseAnalytics mFirebaseAnalytics;
     DatabaseReference mDatabase;
+    String key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if(!FirebaseApp.getApps(this).isEmpty()){
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
-
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -146,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                 writeNewPost(content, path);
 
+                Log.d("Service123","writeNewPost");
                 if (isFromAlbum == true){
                     choice = "앨범";
                 } else {
@@ -158,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
-                    Log.d("fire","이벤트 발생 - 전송 성공");
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
             }
@@ -198,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postFragmentTransaction() {
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
     }
 
@@ -216,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Environment.getExternalStorageDirectory(), SAMPLEIMG);
+        File file = new File(Environment.getExternalStorageDirectory(), key+".png");
         Uri path = Uri.fromFile(file);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, path);
         //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -224,9 +218,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Bitmap loadPictureToImageView() {
-        File file = new File(Environment.getExternalStorageDirectory(), SAMPLEIMG);
+        File file = new File(Environment.getExternalStorageDirectory(),key+".png");
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
+        options.inSampleSize = 16;
         image = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         Log.d("kk9991", "절대경로 : " + file.getAbsolutePath());
         imagePath = file.getAbsolutePath();
@@ -250,13 +244,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        String key = mDatabase.child("posts").push().getKey();
+        key = mDatabase.child("post").push().getKey();
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
-        Map<String, Object> postValues = firebaseItem.toMap();
-
-
+        Map<String, String> postValues = firebaseItem.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/"+key, postValues);
+        childUpdates.put(key, postValues);
+        mDatabase.updateChildren(childUpdates);
     }
 }
 

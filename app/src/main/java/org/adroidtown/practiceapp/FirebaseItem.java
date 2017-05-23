@@ -36,8 +36,8 @@ public class FirebaseItem {
         this.path = path;
     }
 
-    public Map<String, Object> toMap(){
-        HashMap<String, Object> result = new HashMap<>();
+    public Map<String, String> toMap(){
+        HashMap<String, String> result = new HashMap<>();
         result.put("content",content);
         result.put("path",path);
 

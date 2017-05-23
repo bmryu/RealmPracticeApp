@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by bomeeryu_c on 2017. 5. 17..
  */
@@ -41,8 +43,7 @@ public class CustomDialog extends Dialog {
             String time = intent.getExtras().getString("time");
             dialogTime.setText(time);
             dialogText.setText(text);
-            dialogImage.setImageURI(uriText);
-
+            Glide.with(getContext()).load(uriText).into(dialogImage);
         } else{
             String text = intent.getExtras().getString("editText");
             String uriText = intent.getExtras().getString("image"); //절대경로 받아오기
@@ -50,7 +51,7 @@ public class CustomDialog extends Dialog {
             String time = intent.getExtras().getString("time");
             dialogTime.setText(time);
             dialogText.setText(text);
-            dialogImage.setImageURI(Uri.parse(uriText));
+            Glide.with(getContext()).load(uriText).into(dialogImage);
         }
 
     }

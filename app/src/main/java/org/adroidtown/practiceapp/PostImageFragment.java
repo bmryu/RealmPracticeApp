@@ -38,7 +38,6 @@ public class PostImageFragment extends Fragment {
         editText = (EditText)rootView.findViewById(R.id.editText);
         completeButton = (Button)rootView.findViewById(R.id.postBtn);
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
