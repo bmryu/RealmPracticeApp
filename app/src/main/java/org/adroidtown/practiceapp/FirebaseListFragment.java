@@ -55,7 +55,34 @@ public class FirebaseListFragment extends Fragment{
                 pListener.onClick();
             }
         });
+        final TabLayout tabs = (TabLayout)rootView.findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("전체"));
+        tabs.addTab(tabs.newTab().setText("내글"));
+        tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                Log.d("MainActivity", "선택된 탭 : " + position);
 
+                if (position == 0) {
+                    Log.d("MainActivity", "선택된 탭 : " + position + "if position == 0");
+                } else if (position == 1) {
+
+                    Log.d("MainActivity", "선택된 탭 : " + position + "if position == 1");
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
 
@@ -80,35 +107,7 @@ public class FirebaseListFragment extends Fragment{
 
         listView.setAdapter(firebaseListAdapter);
 
-        final TabLayout tabs = (TabLayout) rootView.findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("전체"));
-        tabs.addTab(tabs.newTab().setText("내글"));
-        tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                Log.d("MainActivity", "선택된 탭 : " + position);
 
-                if (position == 0) {
-                  orderByValue();
-
-                } else if (position == 1) {
-                   orderByChild();
-                    listView.setAdapter(firebaseListAdapter);
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
         return rootView;
 

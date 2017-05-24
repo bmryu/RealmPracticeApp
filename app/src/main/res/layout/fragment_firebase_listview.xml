@@ -48,46 +48,6 @@
     android:layout_alignParentBottom="true">
 </org.adroidtown.practiceapp.BottomButton>
 
-<!--    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="#272F31"
-        android:layout_below="@+id/lLIst"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/button1"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_anttalk_selector"/>
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_experttalk_selector"/>
-        <Button
-            android:id="@+id/button3"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_nesttalk_selector"/>
-
-        <Button
-            android:id="@+id/button4"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_tv_selector"/>
-
-        <Button
-            android:id="@+id/button5"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_search_selector"/>
-
-        <Button
-            android:id="@+id/button6"
-            style="@style/BottomTab"
-            android:background="@drawable/btn_view_selector"/>
-
-    </LinearLayout>
-    -->
     <Button
         android:id="@+id/writeBtn"
         android:layout_above="@+id/bottom"
