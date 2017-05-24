@@ -1,6 +1,5 @@
 package org.adroidtown.practiceapp;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -87,13 +85,13 @@ public class FirebaseListFragment extends Fragment implements View.OnClickListen
             @Override
             protected void populateView(View v, Object model, int position) {
                 textView = (TextView)v.findViewById(R.id.name);
-                imageView = (ImageView)v.findViewById(R.id.imageView);
+              //  imageView = (ImageView)v.findViewById(R.id.imageView);
 
                 HashMap<String, Object> data = (HashMap) model;
                 String dataText = data.get("content").toString();
                 String dataImagePath = data.get("path").toString();
                 textView.setText(dataText);
-                Glide.with(getActivity()).load(Uri.parse(dataImagePath)).override(100,100).into(imageView);
+             //   Glide.with(getActivity()).load(Uri.parse(dataImagePath)).override(100,100).into(imageView);
             }
         };
 

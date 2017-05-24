@@ -177,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_PHOTO_ALBUM) {
-                postImageFragment.imageView.setImageURI(data.getData());
+      //          postImageFragment.imageView.setImageURI(data.getData());
               uriAlbum = data.getData();
                 isFromAlbum = true;
             } else if (requestCode == REQUEST_PICTURE) {
-                postImageFragment.imageView.setImageBitmap(loadPictureToImageView());
+         //       postImageFragment.imageView.setImageBitmap(loadPictureToImageView());
 //                intentResult.putExtra("image", intentResult.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT));
 //
 //                Log.d("kk9991", "절대경로 : onActicityResult " + imagePath);
