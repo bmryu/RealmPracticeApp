@@ -23,19 +23,14 @@ import java.util.HashMap;
  * Created by bomeeryu_c on 2017. 5. 22..
  */
 
-public class FirebaseListFragment extends Fragment implements View.OnClickListener{
+public class FirebaseListFragment extends Fragment{
     private DatabaseReference mDatabase;
     Button writeBtn;
     OnPostListener pListener;
     TextView textView;
     ImageView imageView;
 
-    Button button1;
-    Button button2;
-    Button button3;
-    Button button4;
-    Button button5;
-    Button button6;
+
     FirebaseListAdapter firebaseListAdapter;
     public interface   OnPostListener {
         void onClick();
@@ -51,19 +46,7 @@ public class FirebaseListFragment extends Fragment implements View.OnClickListen
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
         final ListView listView = (ListView)rootView.findViewById(R.id.listView);
 
-        button1 = (Button) rootView.findViewById(R.id.button1);
-        button2 = (Button) rootView.findViewById(R.id.button2);
-        button3 = (Button) rootView.findViewById(R.id.button3);
-        button4 = (Button) rootView.findViewById(R.id.button4);
-        button5 = (Button) rootView.findViewById(R.id.button5);
-        button6 = (Button) rootView.findViewById(R.id.button6);
 
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
 
         writeBtn = (Button)rootView.findViewById(R.id.writeBtn);
         writeBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,20 +115,7 @@ public class FirebaseListFragment extends Fragment implements View.OnClickListen
     }
 
 
-    @Override
-    public void onClick(View v) {
-        setFalse();
-        v.setSelected(true);
-    }
 
-    public void setFalse() {
-        button1.setSelected(false);
-        button2.setSelected(false);
-        button3.setSelected(false);
-        button4.setSelected(false);
-        button5.setSelected(false);
-        button6.setSelected(false);
-    }
 
     public void orderByValue(){
             mDatabase.orderByKey();

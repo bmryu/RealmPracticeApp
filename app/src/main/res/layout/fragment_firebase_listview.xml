@@ -41,9 +41,14 @@
         </ListView>
     </LinearLayout>
 
+<org.adroidtown.practiceapp.BottomButton
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/bottom"
+    android:layout_alignParentBottom="true">
+</org.adroidtown.practiceapp.BottomButton>
 
-
-    <LinearLayout
+<!--    <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -82,6 +87,7 @@
             android:background="@drawable/btn_view_selector"/>
 
     </LinearLayout>
+    -->
     <Button
         android:id="@+id/writeBtn"
         android:layout_above="@+id/bottom"
