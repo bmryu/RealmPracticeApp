@@ -52,15 +52,17 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        firebaseListFragment = new FirebaseListFragment();
         postImageFragment = new PostImageFragment();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 //        listFragment = new ListFragment();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
-        firebaseListFragment = new FirebaseListFragment();
+
         getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
         /*
@@ -80,6 +82,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         */
+
+        setupListener();
+
+
+    }
+
+    private void setupListener() {
 
         firebaseListFragment.setOnPostListener(new FirebaseListFragment.OnPostListener() {
             @Override
@@ -147,19 +156,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     choice = "촬영";
                 }
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "이미지 유형");
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, choice);
-                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "이미지 유형");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, choice);
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
             }
         });
-
-
     }
 
     @Override

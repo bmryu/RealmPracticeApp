@@ -4,20 +4,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
+import static org.adroidtown.practiceapp.R.id.listView;
 
 /**
  * Created by bomeeryu_c on 2017. 5. 22..
@@ -29,7 +31,7 @@ public class FirebaseListFragment extends Fragment{
     OnPostListener pListener;
     TextView textView;
     ImageView imageView;
-
+    FirebaseRecyclerAdapter<FirebaseItem, PostViewHolder> mPostAdapter;
 
     FirebaseListAdapter firebaseListAdapter;
     public interface   OnPostListener {
@@ -44,10 +46,11 @@ public class FirebaseListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_firebase_listview, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
-        final ListView listView = (ListView)rootView.findViewById(R.id.listView);
-
-
-
+       // final ListView listView = (ListView)rootView.findViewById(R.id.listView);
+        RecyclerView mPostRV = (RecyclerView)rootView.findViewById(listView);
+        mPostRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        setupAdapter();
+        mPostRV.setAdapter(mPostAdapter);
         writeBtn = (Button)rootView.findViewById(R.id.writeBtn);
         writeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +88,7 @@ public class FirebaseListFragment extends Fragment{
         });
 
 
-
+/*
        firebaseListAdapter = new FirebaseListAdapter(
                 getActivity(),
              Object.class,
@@ -108,12 +111,29 @@ public class FirebaseListFragment extends Fragment{
         listView.setAdapter(firebaseListAdapter);
 
 
+*/
+
 
         return rootView;
 
     }
 
+    private void setupAdapter() {
+        mPostAdapter = new FirebaseRecyclerAdapter<FirebaseItem, PostViewHolder> (
+                FirebaseItem.class,
+                R.layout.list_firebase_item,
+                PostViewHolder.class,
+                mDatabase
+        ) {
 
+            @Override
+            protected void populateViewHolder(PostViewHolder viewHolder, FirebaseItem model, int position) {
+//                viewHolder.imageView.setImageURI(Uri.parse(model.getPath()));
+                viewHolder.textView.setText(model.getContent());
+            }
+
+        };
+    }
 
 
     public void orderByValue(){
@@ -126,4 +146,16 @@ public class FirebaseListFragment extends Fragment{
     }
 
 
+    public static class PostViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+        ImageView imageView;
+
+        public PostViewHolder(View itemView) {
+            super(itemView);
+            textView = (TextView)itemView.findViewById(R.id.recycleContent);
+            imageView = (ImageView)itemView.findViewById(R.id.recycleImage);
+        }
+
+
+    }
 }
