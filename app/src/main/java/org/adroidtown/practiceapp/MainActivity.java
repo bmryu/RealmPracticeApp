@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Uri uriAlbum;
     DatabaseReference mDatabase;
     String key;
-
+    String index;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 //        listFragment = new ListFragment();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+
 
         /*
 
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         setupListener();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
     }
 
@@ -251,12 +251,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        key = mDatabase.child("post").push().getKey();
+        index = mDatabase.child("post").push().getKey();
+
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
         Map<String, String> postValues = firebaseItem.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, postValues);
         mDatabase.updateChildren(childUpdates);
+//        key = mDatabase.child("post").push().getKey();
+//        FirebaseItem firebaseItem = new FirebaseItem(content,path);
+//        Map<String, String> postValues = firebaseItem.toMap();
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put(key, postValues);
+//        mDatabase.updateChildren(childUpdates);
     }
 }
 

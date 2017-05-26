@@ -47,10 +47,12 @@ public class FirebaseListFragment extends Fragment{
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_firebase_listview, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
        // final ListView listView = (ListView)rootView.findViewById(R.id.listView);
+
         RecyclerView mPostRV = (RecyclerView)rootView.findViewById(listView);
         mPostRV.setLayoutManager(new LinearLayoutManager(getContext()));
         setupAdapter();
         mPostRV.setAdapter(mPostAdapter);
+
         writeBtn = (Button)rootView.findViewById(R.id.writeBtn);
         writeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,7 @@ public class FirebaseListFragment extends Fragment{
                 pListener.onClick();
             }
         });
+
         final TabLayout tabs = (TabLayout)rootView.findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("전체"));
         tabs.addTab(tabs.newTab().setText("내글"));
@@ -132,7 +135,23 @@ public class FirebaseListFragment extends Fragment{
                 viewHolder.textView.setText(model.getContent());
             }
 
+            @Override
+            public int getItemCount() {
+                return super.getItemCount();
+            }
+
+            @Override
+            public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return super.onCreateViewHolder(parent, viewType);
+            }
+
+            @Override
+            public void onBindViewHolder(PostViewHolder viewHolder, int position) {
+                super.onBindViewHolder(viewHolder, position);
+
+            }
         };
+        mPostAdapter.notifyDataSetChanged();
     }
 
 
