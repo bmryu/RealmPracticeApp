@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.child("maxkey").child("key").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-              //  System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+              //  System.out.println(snapshot.getValue());
                 Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
                 Log.d("Service123","onDataChange : " + snapshot.getValue());
 
@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 String path;
                 String choice = "";
                 Intent intent = new Intent("action1");
+                intent.setPackage("org.adroidtown.practiceapp");
                 if (isFromAlbum == true) {
                     intent.putExtra("path", uriAlbum);
                     content = postImageFragment.editText.getText().toString();
