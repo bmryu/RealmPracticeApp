@@ -19,8 +19,11 @@ import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.HashMap;
@@ -62,6 +65,19 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 //        listFragment = new ListFragment();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
+
+        mDatabase.child("maxkey").child("key").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+              //  System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
+                Log.d("Service123","onDataChange : " + snapshot.getValue());
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
@@ -252,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeNewPost(String content, String path) {
         //key = mDatabase.child("post").push().getKey();
-
+//        index = mDatabase.child("maxkey").child("key").
         Integer keyInt = index+1;
         key = keyInt.toString();
         FirebaseItem firebaseItem = new FirebaseItem(content,path);

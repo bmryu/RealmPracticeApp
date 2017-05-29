@@ -70,8 +70,9 @@ public class FirebaseListFragment extends Fragment{
 
                 if (position == 0) {
                     Log.d("MainActivity", "선택된 탭 : " + position + "if position == 0");
+                    orderByChild();
                 } else if (position == 1) {
-
+                    orderByValue();
                     Log.d("MainActivity", "선택된 탭 : " + position + "if position == 1");
                 }
 
@@ -138,12 +139,12 @@ public class FirebaseListFragment extends Fragment{
 
 
     public void orderByValue(){
-            mDatabase.orderByKey();
+
     }
     public void orderByChild(){
-        firebaseListAdapter.cleanup();
-        mDatabase.orderByChild("content");
-        this.firebaseListAdapter.notifyDataSetChanged();
+//        firebaseListAdapter.cleanup();
+        mDatabase.orderByChild("post");
+//        this.firebaseListAdapter.notifyDataSetChanged();
     }
 
 
