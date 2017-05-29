@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Uri uriAlbum;
     DatabaseReference mDatabase;
     String key;
-
+    int index;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,7 +251,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        key = mDatabase.child("post").push().getKey();
+        //key = mDatabase.child("post").push().getKey();
+
+        Integer keyInt = index+1;
+        key = keyInt.toString();
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
         Map<String, String> postValues = firebaseItem.toMap();
         Map<String, Object> childUpdates = new HashMap<>();

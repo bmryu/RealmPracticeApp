@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static android.support.v7.recyclerview.R.styleable.RecyclerView;
 import static org.adroidtown.practiceapp.R.id.listView;
 
 /**
