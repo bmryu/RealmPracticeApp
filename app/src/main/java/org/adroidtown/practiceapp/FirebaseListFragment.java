@@ -19,7 +19,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import static android.support.v7.recyclerview.R.styleable.RecyclerView;
 import static org.adroidtown.practiceapp.R.id.listView;
 
 /**
@@ -73,9 +72,9 @@ public class FirebaseListFragment extends Fragment{
 
                 if (position == 0) {
                     Log.d("MainActivity", "선택된 탭 : " + position + "if position == 0");
-                    orderByChild();
+                    
                 } else if (position == 1) {
-                    orderByValue();
+
                     Log.d("MainActivity", "선택된 탭 : " + position + "if position == 1");
                 }
 

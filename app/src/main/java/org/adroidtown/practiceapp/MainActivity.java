@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         if(!FirebaseApp.getApps(this).isEmpty()){
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
 
 
-        mDatabase.child("maxkey").child("key").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("maxkey").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
               //  System.out.println(snapshot.getValue());
                 Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
-                Log.d("Service123","onDataChange : " + snapshot.getValue());
+                Object maxkey = snapshot.getValue();
+                index = Integer.valueOf((String)maxkey);
+//                index = (long)maxkey;
 
             }
             @Override
@@ -269,20 +271,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        //key = mDatabase.child("post").push().getKey();
-//        index = mDatabase.child("maxkey").child("key").
-        Integer keyInt = index+1;
-        key = keyInt.toString();
-
+        int updateIndex = index+1;
+        String key = String.valueOf(updateIndex);
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
         Map<String, String> postValues = firebaseItem.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        mDatabase.updateChildren(childUpdates);
+
+        childUpdates.put(key, postValues);
+        mDatabase.child("post").updateChildren(childUpdates);
 //        key = mDatabase.child("post").push().getKey();
 //        FirebaseItem firebaseItem = new FirebaseItem(content,path);
 //        Map<String, String> postValues = firebaseItem.toMap();
 //        Map<String, Object> childUpdates = new HashMap<>();
-//        childUpdates.put(key, postValues);
+        mDatabase.child("maxkey").setValue(key);
 //        mDatabase.updateChildren(childUpdates);
     }
 }
