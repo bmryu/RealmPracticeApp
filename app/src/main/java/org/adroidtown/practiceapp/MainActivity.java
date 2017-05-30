@@ -26,8 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseListFragment firebaseListFragment;
@@ -57,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/");
 
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -67,7 +66,18 @@ public class MainActivity extends AppCompatActivity {
 //        listFragment = new ListFragment();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
 
+           mDatabase.addValueEventListener(new ValueEventListener() {
+               @Override
+               public void onDataChange(DataSnapshot snapshot) {
+                   Log.d("Service123","addValueEventListener onDataChange has DataSnapshot : " + snapshot);
 
+               }
+
+               @Override
+               public void onCancelled(DatabaseError databaseError) {
+
+               }
+           });
         mDatabase.child("maxkey").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -81,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
+
+
         });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
@@ -271,19 +283,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        int updateIndex = index+1;
-        String key = String.valueOf(updateIndex);
+//        int updateIndex = index+1;
+//        String key = String.valueOf(updateIndex);
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
-        Map<String, String> postValues = firebaseItem.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
+        mDatabase.child("post").push().setValue(firebaseItem);
 
-        childUpdates.put(key, postValues);
-        mDatabase.child("post").updateChildren(childUpdates);
+//        Map<String, String> postValues = firebaseItem.toMap();
+//        Map<String, Object> childUpdates = new HashMap<>();
+//
+//        childUpdates.put(key, postValues);
+//        mDatabase.child("post").updateChildren(childUpdates);
 //        key = mDatabase.child("post").push().getKey();
 //        FirebaseItem firebaseItem = new FirebaseItem(content,path);
 //        Map<String, String> postValues = firebaseItem.toMap();
 //        Map<String, Object> childUpdates = new HashMap<>();
-        mDatabase.child("maxkey").setValue(key);
+//        mDatabase.child("maxkey").setValue(key);
 //        mDatabase.updateChildren(childUpdates);
     }
 }

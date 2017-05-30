@@ -1,8 +1,5 @@
 package org.adroidtown.practiceapp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by bomeeryu_c on 2017. 5. 22..
  */
@@ -36,11 +33,4 @@ public class FirebaseItem {
         this.path = path;
     }
 
-    public Map<String, String> toMap(){
-        HashMap<String, String> result = new HashMap<>();
-        result.put("content",content);
-        result.put("path",path);
-
-        return result;
-    }
 }

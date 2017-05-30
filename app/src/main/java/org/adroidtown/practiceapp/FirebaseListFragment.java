@@ -14,8 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,11 +31,7 @@ public class FirebaseListFragment extends Fragment{
     private DatabaseReference mDatabase;
     Button writeBtn;
     OnPostListener pListener;
-    TextView textView;
-    ImageView imageView;
     FirebaseRecyclerAdapter<FirebaseItem, PostViewHolder> mPostAdapter;
-
-    FirebaseListAdapter firebaseListAdapter;
     public interface   OnPostListener {
         void onClick();
     }
@@ -71,12 +69,18 @@ public class FirebaseListFragment extends Fragment{
                 Log.d("MainActivity", "선택된 탭 : " + position);
 
                 if (position == 0) {
-                    Log.d("MainActivity", "선택된 탭 : " + position + "if position == 0");
-                    
+
+                    orderByTotal();
+                    setupAdapter();
+
                 } else if (position == 1) {
 
-                    Log.d("MainActivity", "선택된 탭 : " + position + "if position == 1");
+                    orderByPath();
+                    setupAdapter();
+
                 }
+
+                mPostAdapter.notifyDataSetChanged();
 
             }
 
@@ -113,7 +117,6 @@ public class FirebaseListFragment extends Fragment{
         };
 
         listView.setAdapter(firebaseListAdapter);
-
 
 */
 
@@ -156,13 +159,77 @@ public class FirebaseListFragment extends Fragment{
     }
 
 
-    public void orderByValue(){
+    public void orderByPath(){
+//        mDatabase.child("post").orderByTotal("content").addChildEventListener()
+        mPostAdapter.cleanup();
+        mDatabase.orderByChild("path").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildAdded : " + dataSnapshot);
 
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildChanged : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("Service123","onChildRemove : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildMoved : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Service123","onCancelled : " );
+
+            }
+        });
     }
-    public void orderByChild(){
-//        firebaseListAdapter.cleanup();
-        mDatabase.orderByChild("post");
-//        this.firebaseListAdapter.notifyDataSetChanged();
+
+    public void orderByTotal(){
+        Log.d("Service123","mDatabase.orderByTotal(\"post\") : " + mDatabase.orderByChild("post"));
+        mPostAdapter.cleanup();
+        mDatabase.orderByChild("content").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildAdded : onDataChange has DataSnapshot : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildChanged : onDataChange has DataSnapshot : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("Service123","onChildRemoved : onDataChange has DataSnapshot : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.d("Service123","onChildMoved : onDataChange has DataSnapshot : " + dataSnapshot);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Service123","onCancelled : onDataChange has DataSnapshot : " );
+
+            }
+        });
+
     }
 
 
@@ -176,6 +243,6 @@ public class FirebaseListFragment extends Fragment{
             imageView = (ImageView)itemView.findViewById(R.id.recycleImage);
         }
 
-
     }
+
 }
