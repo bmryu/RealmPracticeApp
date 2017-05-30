@@ -19,8 +19,11 @@ import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.HashMap;
@@ -41,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
     Uri uriAlbum;
     DatabaseReference mDatabase;
     String key;
-    String index;
-    @Override
+    int index;
+
+       @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
@@ -64,7 +68,20 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
 
 
+        mDatabase.child("maxkey").child("key").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+              //  System.out.println(snapshot.getValue());
+                Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
+                Log.d("Service123","onDataChange : " + snapshot.getValue());
 
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
         /*
 
         postFragment.setOnBackBtnListener(new WritePostFragment.OnBackBtnListener() {
@@ -132,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 String path;
                 String choice = "";
                 Intent intent = new Intent("action1");
+                intent.setPackage("org.adroidtown.practiceapp");
                 if (isFromAlbum == true) {
                     intent.putExtra("path", uriAlbum);
                     content = postImageFragment.editText.getText().toString();
@@ -251,7 +269,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeNewPost(String content, String path) {
-        index = mDatabase.child("post").push().getKey();
+        //key = mDatabase.child("post").push().getKey();
+//        index = mDatabase.child("maxkey").child("key").
+        Integer keyInt = index+1;
+        key = keyInt.toString();
 
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
         Map<String, String> postValues = firebaseItem.toMap();
