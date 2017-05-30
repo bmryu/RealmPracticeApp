@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
     String key;
     int index;
-    @Override
+
+       @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //        listFragment = new ListFragment();
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
 
+
         mDatabase.child("maxkey").child("key").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
-
         /*
 
         postFragment.setOnBackBtnListener(new WritePostFragment.OnBackBtnListener() {
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         setupListener();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
 
     }
 
@@ -272,11 +273,17 @@ public class MainActivity extends AppCompatActivity {
 //        index = mDatabase.child("maxkey").child("key").
         Integer keyInt = index+1;
         key = keyInt.toString();
+
         FirebaseItem firebaseItem = new FirebaseItem(content,path);
         Map<String, String> postValues = firebaseItem.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, postValues);
         mDatabase.updateChildren(childUpdates);
+//        key = mDatabase.child("post").push().getKey();
+//        FirebaseItem firebaseItem = new FirebaseItem(content,path);
+//        Map<String, String> postValues = firebaseItem.toMap();
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put(key, postValues);
+//        mDatabase.updateChildren(childUpdates);
     }
 }
 
