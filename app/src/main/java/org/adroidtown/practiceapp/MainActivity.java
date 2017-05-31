@@ -13,9 +13,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -27,9 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends BaseActivity {
     FirebaseListFragment firebaseListFragment;
-    Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.mainTop) View mainTop;
     BroadcastReceiver receiver;
     Context mContext;
     PostImageFragment postImageFragment;
@@ -44,58 +48,10 @@ public class MainActivity extends AppCompatActivity {
     String key;
     int index;
 
-       @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_new);
-        mContext = this;
 
-        if(!FirebaseApp.getApps(this).isEmpty()){
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/");
-
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        firebaseListFragment = new FirebaseListFragment();
-        postImageFragment = new PostImageFragment();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-//        listFragment = new ListFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, listFragment).commit();
-
-           mDatabase.addValueEventListener(new ValueEventListener() {
-               @Override
-               public void onDataChange(DataSnapshot snapshot) {
-                   Log.d("Service123","addValueEventListener onDataChange has DataSnapshot : " + snapshot);
-
-               }
-
-               @Override
-               public void onCancelled(DatabaseError databaseError) {
-
-               }
-           });
-        mDatabase.child("maxkey").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-              //  System.out.println(snapshot.getValue());
-                Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
-                Object maxkey = snapshot.getValue();
-                index = Integer.valueOf((String)maxkey);
-//                index = (long)maxkey;
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-
-        });
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
         /*
 
         postFragment.setOnBackBtnListener(new WritePostFragment.OnBackBtnListener() {
@@ -114,12 +70,70 @@ public class MainActivity extends AppCompatActivity {
 
         */
 
-        setupListener();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+
 
     }
 
-    private void setupListener() {
+    @Override
+    public int getContentView() {
+        return R.layout.activity_main_new;
+    }
+
+    @Override
+    public void butterKnifeInject() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void initViews() {
+        mContext = this;
+        if(!FirebaseApp.getApps(this).isEmpty()){
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
+
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/");
+
+        setSupportActionBar(toolbar);
+        firebaseListFragment = new FirebaseListFragment();
+        postImageFragment = new PostImageFragment();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.d("Service123","addValueEventListener onDataChange has DataSnapshot : " + snapshot);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mDatabase.child("maxkey").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //  System.out.println(snapshot.getValue());
+                Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
+                Object maxkey = snapshot.getValue();
+                index = Integer.valueOf((String)maxkey);
+//                index = (long)maxkey;
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+
+        });
+
+        setupListener();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+    }
+
+    @Override
+    public void setupListener() {
 
         firebaseListFragment.setOnPostListener(new FirebaseListFragment.OnPostListener() {
             @Override
@@ -200,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {

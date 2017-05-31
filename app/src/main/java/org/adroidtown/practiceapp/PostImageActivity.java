@@ -9,38 +9,53 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.EditText;
 
 import java.io.File;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by bomeeryu_c on 2017. 5. 15..
  */
 
-public class PostImageActivity extends AppCompatActivity {
+public class PostImageActivity extends BaseActivity {
     PostImageFragment postImageFragment;
     Context context;
     static int REQUEST_PICTURE = 100;
     static int REQUEST_PHOTO_ALBUM = 200;
     static String SAMPLEIMG = "picture.png";
     static int REQUEST_DIALOG = 300;
+    @BindView(R.id.backButton)
     Button backButton;
     Intent intentResult;
-    EditText editText;
-  //  DatabaseReference mDatabase;
+
+    @Override
+    public int getContentView() {
+        return R.layout.activity_post_image;
+    }
+
+    @Override
+    public void butterKnifeInject() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void initViews() {
+        postImageFragment = new PostImageFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
+    }
+
+    @Override
+    public void setupListener() {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_image);
         context = this;
-        backButton = (Button) findViewById(R.id.backButton);
-        postImageFragment = new PostImageFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, postImageFragment).commit();
-   //     mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
-
 
     }
 

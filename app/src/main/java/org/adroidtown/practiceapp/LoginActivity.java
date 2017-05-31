@@ -5,31 +5,48 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 /**
  * Created by bomeeryu_c on 2017. 5. 8..
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     LoginFragment1 loginFragment1;
     LoginFragment2 loginFragment2;
     FragmentManager fm;
     Context context;
      //4-2 4-1에 가져온 리스너가 메모리에 로딩됨
 
+     @Override
+     protected void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+     }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public int getContentView() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    public void butterKnifeInject() {
+
+    }
+
+    @Override
+    public void initViews() {
+
         context = this;
         loginFragment1 = new LoginFragment1();
         loginFragment2 = new LoginFragment2();
-       // fm = getSupportFragmentManager();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, loginFragment1).commit();
 
+
+    }
+
+    @Override
+    public void setupListener() {
         loginFragment1.setOnBtnListener(new LoginFragment1.OnBtnListener() {
             @Override
             public void onClick() {
@@ -51,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void onFragmentChanged(boolean goToNext) {
         if (goToNext == true) {

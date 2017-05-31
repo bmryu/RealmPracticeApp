@@ -6,6 +6,7 @@
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:background="#272F31"
+
       >
 
         <Button

@@ -31,9 +31,10 @@
         android:id="@+id/lList"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="403dp"
         android:layout_below="@+id/first"
-        android:layout_above="@+id/bottom">
+        android:layout_above="@+id/bottom"
+        >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"
@@ -58,8 +59,8 @@
 
     <Button
         android:id="@+id/writeBtn"
-        android:layout_above="@+id/bottom"
-        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="50dp"
         android:layout_width="50dp"
