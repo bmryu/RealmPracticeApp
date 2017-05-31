@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import static org.adroidtown.practiceapp.R.id.listView;
 
@@ -31,6 +32,8 @@ public class FirebaseListFragment extends Fragment{
     private DatabaseReference mDatabase;
     Button writeBtn;
     OnPostListener pListener;
+    RecyclerView mPostRV;
+    Query query;
     FirebaseRecyclerAdapter<FirebaseItem, PostViewHolder> mPostAdapter;
     public interface   OnPostListener {
         void onClick();
@@ -46,8 +49,9 @@ public class FirebaseListFragment extends Fragment{
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/post");
        // final ListView listView = (ListView)rootView.findViewById(R.id.listView);
 
-        RecyclerView mPostRV = (RecyclerView)rootView.findViewById(listView);
+        mPostRV = (RecyclerView)rootView.findViewById(listView);
         mPostRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        query = orderByTotal();
         setupAdapter();
         mPostRV.setAdapter(mPostAdapter);
 
@@ -69,18 +73,24 @@ public class FirebaseListFragment extends Fragment{
                 Log.d("MainActivity", "선택된 탭 : " + position);
 
                 if (position == 0) {
-
-                    orderByTotal();
+                    mPostAdapter.cleanup();
+                    mPostRV.removeAllViewsInLayout();
+                    query = orderByTotal();
                     setupAdapter();
+                    mPostAdapter.notifyDataSetChanged();
+                    mPostRV.setAdapter(mPostAdapter);
 
                 } else if (position == 1) {
 
-                    orderByPath();
+                    mPostAdapter.cleanup();
+                    mPostRV.removeAllViewsInLayout();
+                    query = orderByPath();
                     setupAdapter();
+                    mPostAdapter.notifyDataSetChanged();
+                    mPostRV.setAdapter(mPostAdapter);
 
                 }
 
-                mPostAdapter.notifyDataSetChanged();
 
             }
 
@@ -130,7 +140,7 @@ public class FirebaseListFragment extends Fragment{
                 FirebaseItem.class,
                 R.layout.list_firebase_item,
                 PostViewHolder.class,
-                mDatabase
+                query
         ) {
 
             @Override
@@ -155,81 +165,87 @@ public class FirebaseListFragment extends Fragment{
 
             }
         };
-        mPostAdapter.notifyDataSetChanged();
     }
 
 
-    public void orderByPath(){
+    public Query orderByPath() {
 //        mDatabase.child("post").orderByTotal("content").addChildEventListener()
-        mPostAdapter.cleanup();
-        mDatabase.orderByChild("path").addChildEventListener(new ChildEventListener() {
+        query = mDatabase.orderByChild("path");
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildAdded : " + dataSnapshot);
-
+                Log.d("Service123","orderByPath-onChildAdded : " + dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildChanged : " + dataSnapshot);
+
+                Log.d("Service123","orderByPath-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("Service123","onChildRemove : " + dataSnapshot);
+
+                Log.d("Service123","orderByPath-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildMoved : " + dataSnapshot);
+
+                Log.d("Service123","orderByPath-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("Service123","onCancelled : " );
-
             }
-        });
-    }
 
-    public void orderByTotal(){
+            });
+        return query;
+        }
+
+
+
+
+    public Query orderByTotal(){
         Log.d("Service123","mDatabase.orderByTotal(\"post\") : " + mDatabase.orderByChild("post"));
-        mPostAdapter.cleanup();
-        mDatabase.orderByChild("content").addChildEventListener(new ChildEventListener() {
+        query = mDatabase.orderByChild("content");
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildAdded : onDataChange has DataSnapshot : " + dataSnapshot);
-
+                Log.d("Service123","orderByTotal-onChildAdded : " + dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildChanged : onDataChange has DataSnapshot : " + dataSnapshot);
+
+                Log.d("Service123","orderByTotal-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("Service123","onChildRemoved : onDataChange has DataSnapshot : " + dataSnapshot);
+
+                Log.d("Service123","orderByTotal-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d("Service123","onChildMoved : onDataChange has DataSnapshot : " + dataSnapshot);
+
+                Log.d("Service123","orderByTotal-onChildAdded : " + dataSnapshot);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("Service123","onCancelled : onDataChange has DataSnapshot : " );
+
 
             }
         });
-
+        return query;
     }
 
 
