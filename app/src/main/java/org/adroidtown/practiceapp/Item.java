@@ -1,18 +1,20 @@
 package org.adroidtown.practiceapp;
 
+import io.realm.RealmObject;
+
 /**
- * Created by bomeeryu_c on 2017. 5. 22..
+ * Created by bomeeryu_c on 2017. 5. 31..
  */
 
-public class FirebaseItem {
+public class Item extends RealmObject {
     public String content;
     public String path;
 
-    public FirebaseItem(){
+    public Item(){
 
     }
 
-    public FirebaseItem(String content, String path){
+    public Item(String content, String path){
         this.content = content;
         this.path = path;
     }
@@ -32,5 +34,5 @@ public class FirebaseItem {
     public void setPath(String path) {
         this.path = path;
     }
-
 }
+

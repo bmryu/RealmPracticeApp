@@ -38,7 +38,7 @@ public class FirebaseListFragment extends Fragment {
     @BindView(R.id.tabs) TabLayout tabs;
     Query query;
     BottomButton bottomButton;
-    FirebaseRecyclerAdapter<FirebaseItem, PostViewHolder> mPostAdapter;
+
     public interface OnPostListener {
         void onClick();
     }
