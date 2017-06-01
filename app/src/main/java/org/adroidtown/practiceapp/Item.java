@@ -1,5 +1,6 @@
 package org.adroidtown.practiceapp;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -11,7 +12,6 @@ public class Item extends RealmObject {
     public String path;
 
     public Item(){
-
     }
 
     public Item(String content, String path){

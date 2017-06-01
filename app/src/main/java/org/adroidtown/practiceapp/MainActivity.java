@@ -18,20 +18,18 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends BaseActivity {
-    FirebaseListFragment firebaseListFragment;
+    RealmListFragment realmListFragment;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.mainTop) View mainTop;
     BroadcastReceiver receiver;
@@ -47,10 +45,24 @@ public class MainActivity extends BaseActivity {
     DatabaseReference mDatabase;
     String key;
     int index;
-
+    Realm realm;
+    ItemList  itemList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(mContext);
+        try{
+            realm = Realm.getDefaultInstance();
+
+        }catch (Exception e){
+
+            // Get a Realm instance for this thread
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+            realm = Realm.getInstance(config);
+
+        }
 
         /*
 
@@ -91,56 +103,30 @@ public class MainActivity extends BaseActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://practiceapp-ce6dc.firebaseio.com/");
-
         setSupportActionBar(toolbar);
-        firebaseListFragment = new FirebaseListFragment();
+        realmListFragment = new RealmListFragment();
         postImageFragment = new PostImageFragment();
+        itemList = new ItemList();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.d("Service123","addValueEventListener onDataChange has DataSnapshot : " + snapshot);
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        mDatabase.child("maxkey").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                //  System.out.println(snapshot.getValue());
-                Log.d("Service123","onDataChange has DataSnapshot : " + snapshot);
-                Object maxkey = snapshot.getValue();
-                index = Integer.valueOf((String)maxkey);
-//                index = (long)maxkey;
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-
-        });
 
         setupListener();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,realmListFragment).commit();
     }
 
     @Override
     public void setupListener() {
 
-        firebaseListFragment.setOnPostListener(new FirebaseListFragment.OnPostListener() {
+        realmListFragment.setOnPostListener(new RealmListFragment.OnPostListener() {
             @Override
             public void onClick() {
                 postFragmentTransaction();
             }
         });
+
+
 
         postImageFragment.setOnImageClickListener(new PostImageFragment.OnImageClickListener() { //이미지 선택 혹은 카메라 찍기,카메라는 임시저장 사용해야 함 , 이미지선택은 경로를 가져와서
             @Override
@@ -172,10 +158,9 @@ public class MainActivity extends BaseActivity {
         postImageFragment.setOnPostBtnListener(new PostImageFragment.OnPostBtnListener() { //다이얼로그 알림 처리를 MainActivity에게 부탁
             @Override
             public void onClick() {
-                FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
+
                 String content;
                 String path;
-                String choice = "";
                 Intent intent = new Intent("action1");
                 intent.setPackage("org.adroidtown.practiceapp");
                 if (isFromAlbum == true) {
@@ -197,19 +182,8 @@ public class MainActivity extends BaseActivity {
                 writeNewPost(content, path);
 
                 Log.d("Service123","writeNewPost");
-                if (isFromAlbum == true){
-                    choice = "앨범";
-                } else {
-                    choice = "촬영";
-                }
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "이미지 유형");
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, choice);
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, realmListFragment).commit();
 
             }
         });
@@ -252,7 +226,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void listFragmentTransaction() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, firebaseListFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, realmListFragment).commit();
     }
 
     private void loadPicture() {
@@ -299,22 +273,24 @@ public class MainActivity extends BaseActivity {
     }
 
     private void writeNewPost(String content, String path) {
-//        int updateIndex = index+1;
-//        String key = String.valueOf(updateIndex);
-        FirebaseItem firebaseItem = new FirebaseItem(content,path);
-        mDatabase.child("post").push().setValue(firebaseItem);
+        final String rContent = content;
+        final String rPath = path;
+        realm.executeTransaction(new Realm.Transaction(){
 
-//        Map<String, String> postValues = firebaseItem.toMap();
-//        Map<String, Object> childUpdates = new HashMap<>();
-//
-//        childUpdates.put(key, postValues);
-//        mDatabase.child("post").updateChildren(childUpdates);
-//        key = mDatabase.child("post").push().getKey();
-//        FirebaseItem firebaseItem = new FirebaseItem(content,path);
-//        Map<String, String> postValues = firebaseItem.toMap();
-//        Map<String, Object> childUpdates = new HashMap<>();
-//        mDatabase.child("maxkey").setValue(key);
-//        mDatabase.updateChildren(childUpdates);
+            @Override
+            public void execute(Realm realm) {
+                Item item = realm.createObject(Item.class);
+                item.setContent(rContent);
+                item.setPath(rPath);
+                itemList.getItemRealmList().add(item);
+            }
+        });
+
+        realm.commitTransaction();
+
+    }
+    private void loadRealmData(){
+
     }
 }
 
