@@ -23,7 +23,6 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Item, Recycler
     public RecyclerViewAdapter(@Nullable OrderedRealmCollection<Item> data) {
         super(data, true);
         setHasStableIds(true);
-      //  Log.d("Realm","RecyclerViewAdapter : 생성자 호출");
     }
 
     @Override

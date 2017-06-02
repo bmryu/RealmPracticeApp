@@ -1,5 +1,6 @@
 package org.adroidtown.practiceapp;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,7 @@ public class PostImageFragment extends Fragment {
 
     public void setOnPostBtnListener(OnPostBtnListener postBtnListener) {
         this.postBtnListener = postBtnListener;
+
     }
 
     @Nullable
@@ -48,7 +50,6 @@ public class PostImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_post_image, container, false);
         ButterKnife.bind(this,rootView);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +61,12 @@ public class PostImageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 postBtnListener.onClick();
+                editText.setText("");
+                imageView.setImageURI(Uri.parse(""));
             }
         });
 
         return rootView;
     }
+
 }
