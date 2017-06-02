@@ -31,7 +31,7 @@ public class RealmListFragment extends Fragment {
     TabLayout tabs;
     OnPostListener pListener;
     ItemList itemList;
-    
+
     public interface OnPostListener{
         void onClick();
     }
@@ -42,15 +42,16 @@ public class RealmListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_firebase_listview, container, false);
-        Realm.init(getContext());
         realm = Realm.getDefaultInstance(); //realm 데이터베이스를 가져온다
         ButterKnife.bind(this, rootView);
         setUpTabs();
+
         realm.executeTransaction(new Realm.Transaction(){
 
             @Override
             public void execute(Realm realm) {
                 Item item = realm.createObject(Item.class);
+                itemList = realm.createObject(ItemList.class);
                 item.setContent("보미보미~~");
                 item.setPath("--");
                 itemList.getItemRealmList().add(item);

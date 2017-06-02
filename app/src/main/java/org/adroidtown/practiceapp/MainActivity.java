@@ -26,7 +26,6 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MainActivity extends BaseActivity {
     RealmListFragment realmListFragment;
@@ -50,20 +49,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm.init(mContext);
-        try{
-            realm = Realm.getDefaultInstance();
-
-        }catch (Exception e){
-
-            // Get a Realm instance for this thread
-            RealmConfiguration config = new RealmConfiguration.Builder()
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
-            realm = Realm.getInstance(config);
-
-        }
-
+        realm = Realm.getDefaultInstance();
         /*
 
         postFragment.setOnBackBtnListener(new WritePostFragment.OnBackBtnListener() {
@@ -106,7 +92,6 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         realmListFragment = new RealmListFragment();
         postImageFragment = new PostImageFragment();
-        itemList = new ItemList();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
@@ -280,13 +265,14 @@ public class MainActivity extends BaseActivity {
             @Override
             public void execute(Realm realm) {
                 Item item = realm.createObject(Item.class);
+                itemList = realm.createObject(ItemList.class);
                 item.setContent(rContent);
                 item.setPath(rPath);
                 itemList.getItemRealmList().add(item);
             }
         });
 
-        realm.commitTransaction();
+//        realm.commitTransaction();
 
     }
     private void loadRealmData(){

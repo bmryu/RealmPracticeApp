@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  */
 
 public class ItemList extends RealmObject{
-    private RealmList<Item> itemRealmList;
+    public RealmList<Item> itemRealmList;
 
     public RealmList<Item> getItemRealmList() {
         return itemRealmList;
