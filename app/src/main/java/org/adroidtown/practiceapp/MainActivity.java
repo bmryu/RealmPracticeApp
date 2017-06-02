@@ -16,10 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -41,34 +38,14 @@ public class MainActivity extends BaseActivity {
     Bitmap image;
     String imagePath;
     Uri uriAlbum;
-    DatabaseReference mDatabase;
     String key;
-    int index;
     Realm realm;
-    ItemList  itemList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        /*
-
-        postFragment.setOnBackBtnListener(new WritePostFragment.OnBackBtnListener() {
-            @Override
-            public void onClick() {
-                listFragmentTransaction();
-            }
-        });
-
-        postFragment.setOnPostCompleteListener(new WritePostFragment.OnPostCompleteListener() {
-            @Override
-            public void onClick() {
-                listFragmentTransaction();
-            }
-        });
-
-        */
-
-
+        Log.d("Realm","MainActivity - Realm = "+realm);
 
     }
 
@@ -85,16 +62,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initViews() {
         mContext = this;
-        if(!FirebaseApp.getApps(this).isEmpty()){
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
 
         setSupportActionBar(toolbar);
         realmListFragment = new RealmListFragment();
         postImageFragment = new PostImageFragment();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-
 
         setupListener();
 
@@ -148,23 +121,28 @@ public class MainActivity extends BaseActivity {
                 String path;
                 Intent intent = new Intent("action1");
                 intent.setPackage("org.adroidtown.practiceapp");
-                if (isFromAlbum == true) {
-                    intent.putExtra("path", uriAlbum);
-                    content = postImageFragment.editText.getText().toString();
-                    intent.putExtra("editText", content);
-                    startService(intent);
-                    Log.d("Service123","startService() 앨범 ");
-                    path = uriAlbum.toString();
-                } else {
-                    intent.putExtra("image", imagePath);
-                    content = postImageFragment.editText.getText().toString();
-                    intent.putExtra("editText", content);
-                    startService(intent);
-                    Log.d("Service123","startService() 촬영 ");
-                    path = imagePath.toString();
+                try {
+                    if (isFromAlbum == true) {
+                        intent.putExtra("path", uriAlbum);
+                        content = postImageFragment.editText.getText().toString();
+                        intent.putExtra("editText", content);
+                        startService(intent);
+                        Log.d("Service123", "startService() 앨범 ");
+                        path = uriAlbum.toString();
+                    } else {
+                        intent.putExtra("image", imagePath);
+                        content = postImageFragment.editText.getText().toString();
+                        intent.putExtra("editText", content);
+                        startService(intent);
+                        Log.d("Service123", "startService() 촬영 ");
+                        path = imagePath.toString();
+                    }
+                    writeNewPost(content, path);
+                } catch (Exception e) {
+                    Toast.makeText(mContext,"사진을 선택해주세요",Toast.LENGTH_LONG).show();
                 }
 
-                writeNewPost(content, path);
+
 
                 Log.d("Service123","writeNewPost");
 
@@ -260,23 +238,18 @@ public class MainActivity extends BaseActivity {
     private void writeNewPost(String content, String path) {
         final String rContent = content;
         final String rPath = path;
+
         realm.executeTransaction(new Realm.Transaction(){
 
             @Override
             public void execute(Realm realm) {
                 Item item = realm.createObject(Item.class);
-                itemList = realm.createObject(ItemList.class);
                 item.setContent(rContent);
                 item.setPath(rPath);
-                itemList.getItemRealmList().add(item);
+                realm.insertOrUpdate(item);
             }
         });
-
-//        realm.commitTransaction();
-
     }
-    private void loadRealmData(){
 
-    }
 }
 

@@ -30,7 +30,6 @@ public class RealmListFragment extends Fragment {
     @BindView(R.id.tabs)
     TabLayout tabs;
     OnPostListener pListener;
-    ItemList itemList;
 
     public interface OnPostListener{
         void onClick();
@@ -42,41 +41,17 @@ public class RealmListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_firebase_listview, container, false);
-        realm = Realm.getDefaultInstance(); //realm 데이터베이스를 가져온다
+        realm = Realm.getDefaultInstance();
         ButterKnife.bind(this, rootView);
         setUpTabs();
-
-        realm.executeTransaction(new Realm.Transaction(){
-
-            @Override
-            public void execute(Realm realm) {
-                Item item = realm.createObject(Item.class);
-                itemList = realm.createObject(ItemList.class);
-                item.setContent("보미보미~~");
-                item.setPath("--");
-                itemList.getItemRealmList().add(item);
-            }
-        });
-
-        realm.executeTransaction(new Realm.Transaction(){
-
-            @Override
-            public void execute(Realm realm) {
-                Item item = realm.createObject(Item.class);
-                item.setContent("리사이클 테스트용 1");
-                item.setPath("--");
-                itemList.getItemRealmList().add(item);
-            }
-        });
-
-
+        setUpRecyclerView();
         writeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pListener.onClick();
             }
         });
-        setUpRecyclerView();
+
         return rootView;
 
     }
@@ -84,11 +59,10 @@ public class RealmListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        realm.close();
     }
 
     private void setUpRecyclerView() {
-        adapter = new RecyclerViewAdapter(realm.where(ItemList.class).findFirst().getItemRealmList()); //지금 null임 겟아이템림리스트를 할 오브젝트들을 만들어줘야함
+        adapter = new RecyclerViewAdapter(realm.where(Item.class).findAll());
         listRV.setLayoutManager(new LinearLayoutManager(getContext()));
         listRV.setAdapter(adapter);
         listRV.setHasFixedSize(true);
@@ -102,9 +76,13 @@ public class RealmListFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if (position == 0) {
-
+                    adapter = new RecyclerViewAdapter(realm.where(Item.class).findAll());
+                    listRV.setAdapter(null);
+                    listRV.setAdapter(adapter);
                 } else if (position == 1) {
-
+                    adapter = new RecyclerViewAdapter(realm.where(Item.class).findAllSorted("content"));
+                    listRV.setAdapter(null);
+                    listRV.setAdapter(adapter);
                 }
             }
 

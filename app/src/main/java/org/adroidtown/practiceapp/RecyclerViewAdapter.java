@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
@@ -24,13 +22,8 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Item, Recycler
 
     public RecyclerViewAdapter(@Nullable OrderedRealmCollection<Item> data) {
         super(data, true);
-    }
-
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-
-
+        setHasStableIds(true);
+      //  Log.d("Realm","RecyclerViewAdapter : 생성자 호출");
     }
 
     @Override
