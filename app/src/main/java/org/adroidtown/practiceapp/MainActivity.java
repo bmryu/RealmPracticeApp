@@ -84,8 +84,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-
         postImageFragment.setOnImageClickListener(new PostImageFragment.OnImageClickListener() { //이미지 선택 혹은 카메라 찍기,카메라는 임시저장 사용해야 함 , 이미지선택은 경로를 가져와서
             @Override
             public void onClick() {
@@ -147,6 +145,11 @@ public class MainActivity extends BaseActivity {
                 Log.d("Service123","writeNewPost");
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, realmListFragment).commit();
+//                int ids[] =AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(getApplication(),CustomWidget.class));
+//                AppWidgetManager.getInstance(mContext).notifyAppWidgetViewDataChanged(ids, R.id.text_widget_content);
+
+                Intent intentWidget = new Intent(mContext, CustomWidget.class);
+//                intent.setAction(AppWidgetProvider
 
             }
         });

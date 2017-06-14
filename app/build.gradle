@@ -46,5 +46,5 @@ dependencies {
     compile 'com.jakewharton:butterknife-compiler:8.6.0'
 }
 
-    apply plugin: 'com.google.gms.google-services'
+//    apply plugin: 'com.google.gms.google-services'
     apply plugin: 'realm-android'
