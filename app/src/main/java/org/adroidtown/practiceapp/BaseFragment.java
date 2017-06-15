@@ -33,8 +33,8 @@ public abstract class BaseFragment extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                handler.sendEmptyMessage(0);
-                progressOFF();
+                handler.sendEmptyMessage(0);
+//                progressOFF();
             }
         });
         thread.start();
