@@ -3,7 +3,6 @@ package org.adroidtown.practiceapp;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by bomeeryu_c on 2017. 5. 15..
  */
 
-public class PostImageFragment extends Fragment {
+public class PostImageFragment extends BaseFragment {
     @BindView(R.id.imageView)
     ImageView imageView;
     @BindView(R.id.editText)
@@ -50,6 +49,7 @@ public class PostImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_post_image, container, false);
         ButterKnife.bind(this,rootView);
+        progressON(getContext());
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
