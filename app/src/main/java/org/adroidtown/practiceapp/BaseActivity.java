@@ -21,8 +21,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         initViews();
         setupListener();
     }
-
-
-
-
+//    public void progressON(){
+//        MyApplication.getInstance().progressON();
+//    }
+//    public void progressOFF(){
+//        MyApplication.getInstance().progressOFF();
+//    }
 }

@@ -3,7 +3,6 @@ package org.adroidtown.practiceapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import io.realm.Realm;
  * Created by bomeeryu_c on 2017. 5. 22..
  */
 
-public class RealmListFragment extends Fragment {
+public class RealmListFragment extends BaseFragment {
     private Realm realm;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -40,6 +39,7 @@ public class RealmListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        progressON(getContext());
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_firebase_listview, container, false);
         realm = Realm.getDefaultInstance();
         ButterKnife.bind(this, rootView);

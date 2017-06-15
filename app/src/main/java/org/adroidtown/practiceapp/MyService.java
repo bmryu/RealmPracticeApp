@@ -74,5 +74,4 @@ public class MyService extends Service {
         startActivity(goToMainIntent);
     }
 
-
 }
