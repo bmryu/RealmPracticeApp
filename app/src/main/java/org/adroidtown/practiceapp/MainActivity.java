@@ -1,6 +1,8 @@
 package org.adroidtown.practiceapp;
 
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -145,11 +147,13 @@ public class MainActivity extends BaseActivity {
                 Log.d("Service123","writeNewPost");
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, realmListFragment).commit();
-//                int ids[] =AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(getApplication(),CustomWidget.class));
-//                AppWidgetManager.getInstance(mContext).notifyAppWidgetViewDataChanged(ids, R.id.text_widget_content);
 
-                Intent intentWidget = new Intent(mContext, CustomWidget.class);
-//                intent.setAction(AppWidgetProvider
+                int ids[] =AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(getApplication(),CustomWidget.class));
+
+                Intent intentW = new Intent(mContext,CustomWidget.class);
+                intentW.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                intentW.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+                sendBroadcast(intentW);
 
             }
         });
@@ -172,11 +176,11 @@ public class MainActivity extends BaseActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_PHOTO_ALBUM) {
-      //          postImageFragment.imageView.setImageURI(data.getData());
+//                postImageFragment.imageView.setImageURI(data.getData());
               uriAlbum = data.getData();
                 isFromAlbum = true;
             } else if (requestCode == REQUEST_PICTURE) {
-         //       postImageFragment.imageView.setImageBitmap(loadPictureToImageView());
+//                postImageFragment.imageView.setImageBitmap(loadPictureToImageView());
 //                intentResult.putExtra("image", intentResult.getExtras().getParcelable(MediaStore.EXTRA_OUTPUT));
 //
 //                Log.d("kk9991", "절대경로 : onActicityResult " + imagePath);
