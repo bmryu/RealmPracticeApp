@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         Log.d("Realm", "MainActivity - Realm = " + realm);
 //        Intent intent = new Intent(MainActivity.this, TimeAlertService.class);
 //        startService(intent);
-        setAlarm();
+//        setAlarm();
     }
 
     @Override
