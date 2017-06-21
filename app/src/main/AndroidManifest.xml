@@ -33,6 +33,7 @@
             android:screenOrientation="portrait">
 
         </activity>
+
     <!--    <activity android:name=".PostImageActivity"/>
         <service android:enabled="true" android:name=".MyService">
             <intent-filter>
@@ -62,8 +63,8 @@
         </receiver>
         <service android:enabled="true" android:name=".TimeAlertService">
             <intent-filter>
-                <action android:name="timetime"/>
-            </intent-filter>
+            <action android:name="timetime"/>
+        </intent-filter>
         </service>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
