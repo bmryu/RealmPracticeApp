@@ -77,15 +77,14 @@ public class MainActivity extends BaseActivity {
         postImageFragment = new PostImageFragment();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-
         setupListener();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, realmListFragment).commit();
+
     }
 
     @Override
     public void setupListener() {
-
         realmListFragment.setOnPostListener(new RealmListFragment.OnPostListener() {
             @Override
             public void onClick() {
@@ -161,8 +160,9 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-    }
 
+
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -261,7 +261,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setAlarm() {
-        Log.d("bomee","setAlarm확인");
+        Log.d("bomee", "setAlarm확인");
         Intent intent = new Intent(mContext, TimeAlertService.class);
         intent.setAction("timetime");
         PendingIntent sender = PendingIntent.getService(mContext, 555, intent, 0);
@@ -269,9 +269,9 @@ public class MainActivity extends BaseActivity {
         Calendar cal = Calendar.getInstance();
 
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.SECOND, 0);
 //        cal.set(Calendar.MINUTE,cal.getTime().getMinutes());
-        cal.set(Calendar.HOUR_OF_DAY,cal.getTime().getHours());
+        cal.set(Calendar.HOUR_OF_DAY, cal.getTime().getHours());
         switch (cal.get(Calendar.MINUTE) % 5) {
             case 0:
                 cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
@@ -289,10 +289,10 @@ public class MainActivity extends BaseActivity {
                 cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) + 1);
                 break;
         }
-        Log.d("bomee","setAlarm확인 : "+cal.get(Calendar.HOUR_OF_DAY)+cal.get(Calendar.MINUTE)+cal.get(Calendar.SECOND));
-        am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),5*60*1000,sender);
-        Log.d("bomee","setAlarm확인 : "+am);
-        Log.d("bomee","sender 확인 : "+sender);
+        Log.d("bomee", "setAlarm확인 : " + cal.get(Calendar.HOUR_OF_DAY) + cal.get(Calendar.MINUTE) + cal.get(Calendar.SECOND));
+        am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 5 * 60 * 1000, sender);
+        Log.d("bomee", "setAlarm확인 : " + am);
+        Log.d("bomee", "sender 확인 : " + sender);
 
     }
 }

@@ -29,4 +29,11 @@
     <style name="MyTabStyle" parent="android:Widget.ActionBar.TabBar">
         <item name="android:background">@drawable/tab_selector</item>
     </style>
+    <style name="weather_content">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 </resources>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="도시" />
+
+        <EditText
+            android:id="@+id/edit_county"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="시/군/구" />
+
+        <EditText
+            android:id="@+id/edit_village"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="동/읍/면" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_result"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="오늘 ㅇㅇ시 ㅇㅇ구 ㅇㅇ동의 날씨입니다 \n(ㅇ시 기준)"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout style="@style/weather_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="하늘" />
+
+            <TextView
+                android:id="@+id/text_sky"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구름 상태" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/weather_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="최고기온" />
+
+            <TextView
+                android:id="@+id/text_tmax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최고 'c " />
+        </LinearLayout>
+
+        <LinearLayout style="@style/weather_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="최저기온" />
+
+            <TextView
+                android:id="@+id/text_tmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최저 'c " />
+        </LinearLayout>
+
+        <LinearLayout style="@style/weather_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="습도" />
+
+            <TextView
+                android:id="@+id/text_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="습~하~" />
+        </LinearLayout>
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/image_sky_state"/>
+    </LinearLayout>
+
+    <org.adroidtown.practiceapp.BottomButton
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+    </org.adroidtown.practiceapp.BottomButton>
+
+</LinearLayout>

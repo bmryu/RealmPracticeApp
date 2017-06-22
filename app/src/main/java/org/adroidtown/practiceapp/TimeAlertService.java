@@ -74,7 +74,7 @@ public class TimeAlertService extends Service {
         }
 
         Log.d("bomee", "setAlarm확인 : " + cal.get(Calendar.HOUR_OF_DAY) + cal.get(Calendar.MINUTE) + cal.get(Calendar.SECOND));
-        am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 60 * 1000, sender);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 5 * 60 * 1000, sender);
         Log.d("bomee", "setAlarm확인 : " + am);
         Log.d("bomee", "sender 확인 : " + sender);
     }

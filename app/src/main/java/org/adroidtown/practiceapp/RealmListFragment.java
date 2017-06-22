@@ -29,7 +29,6 @@ public class RealmListFragment extends BaseFragment {
     @BindView(R.id.tabs)
     TabLayout tabs;
     OnPostListener pListener;
-
     public interface OnPostListener{
         void onClick();
     }
@@ -51,7 +50,6 @@ public class RealmListFragment extends BaseFragment {
                 pListener.onClick();
             }
         });
-
         return rootView;
 
     }

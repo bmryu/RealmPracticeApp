@@ -1,6 +1,7 @@
 package org.adroidtown.practiceapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,44 +24,85 @@ import butterknife.OnClick;
  */
 
 public class BottomButton extends LinearLayout implements View.OnClickListener {
-    @BindViews({R.id.button1,R.id.button2,R.id.button3,R.id.button4,R.id.button5,R.id.button6})
+    @BindViews({R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6})
     List<Button> buttons;
+    @BindView(R.id.button1)
+    Button button1;
+    @BindView(R.id.button2)
+    Button button2;
+    @BindView(R.id.button3)
+    Button button3;
+    @BindView(R.id.button4)
+    Button button4;
+    @BindView(R.id.button5)
+    Button button5;
+    @BindView(R.id.button6)
+    Button button6;
+    @BindView(R.id.bottom)
+    LinearLayout bottom;
+
+
+    OnGoToWeatherListener goToWeatherListener;
+
+    @OnClick(R.id.button1)
+    public void onViewClicked() {
+        WeatherActivity weatherActivity = new WeatherActivity();
+        Intent intent = new Intent(getContext(), WeatherActivity.class);
+       getContext().startActivity(intent);
+    }
+
+    public interface OnGoToWeatherListener {
+        void onClick();
+    }
+
+    public void setOnGoToWeatherListener(OnGoToWeatherListener goToWeatherListener) {
+        this.goToWeatherListener = goToWeatherListener;
+        Log.d("bomee", "setOnGoToWeatherListener 설정 " + goToWeatherListener + "어떤 객체" + this);
+    }
+
     public BottomButton(Context context) {
         super(context);
         init(context);
-        Log.d("CustomView lifeCycle", "파라미터 1개 생성자");
+        Log.d("bomee", "파라미터 1개 생성자 " + this);
+
     }
 
     public BottomButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
         init(context);
-        Log.d("CustomView lifeCycle", "파라미터 2개 생성자" + attrs);
+        Log.d("bomee", "파라미터 2개 생성자 - bottombutton " + this);
+
     }
 
     public BottomButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        Log.d("CustomView lifeCycle", "파라미터 3개 생성자");
+        Log.d("bomee", "파라미터 3개 생성자");
+
     }
 
-    public void init(Context context) {
+    public void init(final Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.bottom_button, this, true);
         ButterKnife.bind(this);
+
     }
 
-    @OnClick({R.id.button1,R.id.button2,R.id.button3,R.id.button4,R.id.button5,R.id.button6})
+    @OnClick({R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6})
     public void onClick(View v) {
-        ButterKnife.apply(buttons,SETFALSE);
+        ButterKnife.apply(buttons, SETFALSE);
         v.setSelected(true);
     }
 
-   static  final ButterKnife.Action<Button> SETFALSE = new ButterKnife.Action<Button>(){
-       @Override
-       public void apply(@NonNull Button view, int index) {
-         view.setSelected(false);
-       }
-   };
+
+    static final ButterKnife.Action<Button> SETFALSE = new ButterKnife.Action<Button>() {
+        @Override
+        public void apply(@NonNull Button view, int index) {
+            view.setSelected(false);
+        }
+    };
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
