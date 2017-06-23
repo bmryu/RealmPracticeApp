@@ -62,7 +62,20 @@
                 android:layout_height="wrap_content"
                 android:text="구름 상태" />
         </LinearLayout>
+        <LinearLayout style="@style/weather_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="현재 기온" />
+
+            <TextView
+                android:id="@+id/text_tc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재" />
+        </LinearLayout>
         <LinearLayout style="@style/weather_content">
 
             <TextView
